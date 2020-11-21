@@ -1,0 +1,54 @@
+###################################
+# Airflow - Common Configs
+###################################
+airflow:
+  ## configs for the docker image of the web/scheduler/worker
+  ##
+  image:
+    repository: apache/airflow
+    tag: 1.10.12-python3.8
+    pullPolicy: IfNotPresent
+    pullSecret: ""
+  executor: CeleryExecutor
+  fernetKey: "7T512UXSSmBOkpWimFHIVb8jK6lfmSAvx4mO6Arehnc="
+  config: {}
+  podAnnotations: {}
+  extraEnv:
+    - name: MINIO_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: humphrey-airflow-local
+          key: MINIO_ACCESS_KEY
+    - name: MINIO_SECRET_KEY
+      valueFrom:
+        secretKeyRef:
+          name: humphrey-airflow-local
+          key: MINIO_SECRET_KEY
+    - name: MINIO_BUCKET_NAME
+      valueFrom:
+        secretKeyRef:
+          name: humphrey-airflow-local
+          key: MINIO_BUCKET_NAME
+    - name: MINIO_HOST
+      valueFrom:
+        secretKeyRef:
+          name: humphrey-airflow-local
+          key: MINIO_HOST
+  extraConfigmapMounts: []
+  extraContainers: []
+  extraPipPackages: []
+  extraVolumeMounts: []
+  extraVolumes: []
+
+  dags:
+    path: /opt/airflow/dags
+    doNotPickle: false
+    installRequirements: false
+
+    persistence:
+      enabled: false
+      existingClaim: ""
+      subPath: ""
+      storageClass: ""
+      accessMode: ReadOnlyMany
+      size: 1Gi
