@@ -37,18 +37,17 @@ airflow:
   extraConfigmapMounts: []
   extraContainers: []
   extraPipPackages: []
-  extraVolumeMounts: []
-  extraVolumes: []
+  extraVolumeMounts: {}
+  extraVolumes: {}
 
   dags:
     path: /opt/airflow/dags
     doNotPickle: false
     installRequirements: false
-
     persistence:
       enabled: false
-      existingClaim: ""
-      subPath: ""
+      existingClaim: "airflow-dags-pvc"
+      subPath: "/dags/"
       storageClass: ""
       accessMode: ReadOnlyMany
       size: 1Gi
