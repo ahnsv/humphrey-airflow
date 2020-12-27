@@ -96,8 +96,7 @@ airflow:
     AIRFLOW__KUBERNETES__DAGS_VOLUME_SUBPATH: repo/
     AIRFLOW__KUBERNETES__GIT_BRANCH: master
     AIRFLOW__KUBERNETES__GIT_DAGS_FOLDER_MOUNT_POINT: /opt/airflow/dags
-    AIRFLOW__KUBERNETES__GIT_REPO: git@github.com:ahnsv/humphrey-airflow.git
-#    AIRFLOW__KUBERNETES__GIT_SSH_KEY_SECRET_NAME: airflow-secrets
+    AIRFLOW__KUBERNETES__GIT_REPO: "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/ahnsv/humphrey-airflow.git"
     AIRFLOW__KUBERNETES__LOGS_VOLUME_CLAIM: airflow-test-logs
     AIRFLOW__KUBERNETES__NAMESPACE: airflow
     AIRFLOW__KUBERNETES__RUN_AS_USER: "50000"  # https://github.com/apache/airflow/issues/8564
@@ -195,7 +194,7 @@ scheduler:
   ##
   resources:
     requests:
-      cpu: "350m"
+      cpu: "100m"
       memory: "1Gi"
 
   ## the nodeSelector configs for the scheduler Pods
@@ -411,7 +410,7 @@ web:
   ##
   resources:
     requests:
-      cpu: "350m"
+      cpu: "100m"
       memory: "1Gi"
 
   ## the number of web Pods to run
