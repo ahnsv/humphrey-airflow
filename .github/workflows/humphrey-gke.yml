@@ -44,6 +44,8 @@ jobs:
 
       - name: Upgrade Humphrey Cluster
         run: |-
+          helm repo add airflow-stable https://airflow-helm.github.io/charts
+          helm repo update
           helm upgrade -n airflow humphrey-airflow -f k8s/humphrey/values.yml airflow-stable/airflow
 
           
