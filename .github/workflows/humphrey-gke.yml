@@ -35,7 +35,7 @@ jobs:
       - name: Configure GKE Cluster
         run: |-
           gcloud --quiet auth configure-docker
-          gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+          gcloud container clusters get-credentials "$GKE_CLUSTER" --region "$GKE_REGION"
 
       # Install helm
       - name: Install Helm
