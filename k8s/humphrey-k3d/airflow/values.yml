@@ -95,7 +95,7 @@ airflow:
     AIRFLOW__KUBERNETES__GIT_BRANCH: master
     AIRFLOW__KUBERNETES__GIT_DAGS_FOLDER_MOUNT_POINT: /opt/airflow/dags
     AIRFLOW__KUBERNETES__GIT_REPO: "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/ahnsv/humphrey-airflow.git"
-    AIRFLOW__KUBERNETES__LOGS_VOLUME_CLAIM: airflow-test-logs
+    AIRFLOW__KUBERNETES__LOGS_VOLUME_CLAIM: humphrey-airflow-logs
     AIRFLOW__KUBERNETES__NAMESPACE: airflow
     AIRFLOW__KUBERNETES__RUN_AS_USER: "50000"  # https://github.com/apache/airflow/issues/8564
     AIRFLOW__KUBERNETES__WORKER_CONTAINER_REPOSITORY: "apache/airflow"
@@ -867,7 +867,7 @@ logs:
   persistence:
     ## if a persistent volume is mounted at `logs.path`
     ##
-    enabled: false
+    enabled: true
 
     ## the name of an existing PVC to use
     ##
@@ -883,7 +883,7 @@ logs:
     ## - if set to "", then `PersistentVolumeClaim/spec.storageClassName` is omitted
     ## - if set to "-", then `PersistentVolumeClaim/spec.storageClassName` is set to ""
     ##
-    storageClass: ""
+    storageClass: "local-path"
 
     ## the access mode of the PVC
     ##
@@ -894,7 +894,7 @@ logs:
     ## - different StorageClass support different access modes:
     ##   https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
     ##
-    accessMode: ReadWriteMany
+    accessMode: ReadWriteOnce
 
     ## the size of PVC to request
     ##
