@@ -84,8 +84,6 @@ airflow:
   config:
     AIRFLOW__CORE__SECURE_MODE: "True"
     AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: "300"
-    AIRFLOW__CORE__DAG_CONCURRENCY: "100"
-    AIRFLOW__CORE__PARALLELISM: "300"
     AIRFLOW__CORE__LOG_FORMAT: "[%(asctime)s] %(message)s"
     AIRFLOW__CORE__COLORED_LOG_FORMAT: "{%(filename)s:%(lineno)d} %(levelname)s - %(message)s"
     AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "30"
@@ -101,7 +99,7 @@ airflow:
     AIRFLOW__KUBERNETES__NAMESPACE: airflow
     AIRFLOW__KUBERNETES__RUN_AS_USER: "50000"  # https://github.com/apache/airflow/issues/8564
     AIRFLOW__KUBERNETES__WORKER_CONTAINER_REPOSITORY: "apache/airflow"
-    AIRFLOW__KUBERNETES__WORKER_CONTAINER_TAG: "1.10.14-python3.8"  # 버전 업데이트 할 시 production-values.yaml이랑 staging-values.yaml도 업데이트하는 것 잊지 말길.
+    AIRFLOW__KUBERNETES__WORKER_CONTAINER_TAG: "1.10.14-python3.8"
     AIRFLOW__KUBERNETES__WORKER_CONTAINER_IMAGE_PULL_POLICY: Always
 
   ## extra annotations for the web/scheduler/worker Pods
@@ -479,7 +477,7 @@ web:
     sessionAffinity: "None"
     sessionAffinityConfig: { }
     type: ClusterIP
-    externalPort: 80
+    externalPort: 38080
     loadBalancerIP: ""
     loadBalancerSourceRanges: [ ]
     nodePort:
@@ -490,7 +488,7 @@ web:
   ## NOTE:
   ## - should be compatible with `ingress.web.path` config
   ##
-  baseUrl: "http://localhost"
+  baseUrl: "http://localhost:38080"
 
   ## sets `AIRFLOW__CORE__STORE_SERIALIZED_DAGS`
   ##
@@ -1130,7 +1128,8 @@ ingress:
   web:
     ## annotations for the web Ingress
     ##
-    annotations: { }
+    annotations: {}
+#      kubernetes.io/ingress.class: nginx
 
     ## additional labels for the web Ingress
     ##
@@ -1149,11 +1148,11 @@ ingress:
     ## - API:    http://example.com/airflow/api
     ## - HEALTH: http://example.com/airflow/health
     ##
-    path: ""
+    path: "/airflow"
 
     ## the hostname for the web Ingress
     ##
-    host: ""
+    host: "humphreyahn.dev"
 
     ## the livenessPath for the web Ingress
     ##
